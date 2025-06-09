@@ -39,7 +39,6 @@ body {
   border-radius: 30px;
   border: 2px solid #00b3c0;
   box-shadow: 0 0 10px #00f0ff;
-  animation: pulse 2s infinite ease-in-out;
 }
 
 h1, h2 {
