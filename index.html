@@ -213,7 +213,7 @@
     gap: 20px;
   }
 
-  button {
+  a.button-link {
     background-color: #36393f;
     border: none;
     border-radius: 12px;
@@ -232,17 +232,18 @@
       box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     width: 100%;
+    text-decoration: none;
     will-change: transform, background-color, box-shadow;
   }
-  button .material-icons {
+  a.button-link .material-icons {
     font-size: 22px;
     color: #5865f2; 
     transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: color;
   }
 
-  button:hover,
-  button:focus-visible {
+  a.button-link:hover,
+  a.button-link:focus-visible {
     background-color: #5865f2;
     color: #fff;
     outline-offset: 4px;
@@ -251,12 +252,12 @@
     box-shadow: 0 12px 24px rgba(88,101,242,0.75);
     z-index: 1;
   }
-  button:hover .material-icons,
-  button:focus-visible .material-icons {
+  a.button-link:hover .material-icons,
+  a.button-link:focus-visible .material-icons {
     color: #ffffff;
   }
 
-  button:active {
+  a.button-link:active {
     transform: scale(0.97);
     box-shadow: 0 6px 12px rgba(88,101,242,0.5);
     transition-duration: 0.1s;
@@ -272,7 +273,7 @@
       grid-template-columns: 1fr;
       gap: 16px;
     }
-    button {
+    a.button-link {
       padding: 16px 0;
       font-size: 1.125rem;
       gap: 14px;
@@ -289,45 +290,41 @@
   <canvas id="constellation" class="constellation-canvas" aria-hidden="true"></canvas>
   <main class="profile-container" role="main" aria-label="Profil Seite von Developer">
     <img 
-      src="profil1" 
+      src="profil.png"
       alt="Profilbild eines Developers, kreisförmig, moderner Stil, dunkler Hintergrund, blaue Umrandung" 
       class="profile-pfp" 
       width="120" height="120"
-      onerror="this.onerror=null;this.src='https://placehold.co/120x120/png?text=Profile';"
       loading="lazy"
       tabindex="0"
     />
     <h1 class="profile-name">Developer</h1>
     <p class="profile-role">developer</p>
     <nav class="button-row" role="navigation" aria-label="Social Media Links">
-      <button type="button" aria-label="Twitch" tabindex="0">
+      <a href="https://www.twitch.tv/lhansi_" target="_blank" rel="noopener noreferrer" class="button-link" aria-label="Twitch lhansi_" tabindex="0">
         <span class="material-icons" aria-hidden="true">sports_esports</span>
         Twitch
-      </button>
-      <button type="button" aria-label="Discord" tabindex="0">
-        <span class="material-icons" aria-hidden="true">chat</span>
-        Discord
-      </button>
-      <button type="button" aria-label="Twitch 2" tabindex="0">
+      </a>
+      <a href="https://www.twitch.tv/search?term=hatilo_" target="_blank" rel="noopener noreferrer" class="button-link" aria-label="Twitch search hatilo_" tabindex="0">
         <span class="material-icons" aria-hidden="true">videogame_asset</span>
         Twitch 2
-      </button>
-      <button type="button" aria-label="YouTube" tabindex="0">
+      </a>
+      <a href="https://discord.gg/xm3cEHqEAx" target="_blank" rel="noopener noreferrer" class="button-link" aria-label="Discord invite xm3cEHqEAx" tabindex="0">
+        <span class="material-icons" aria-hidden="true">chat</span>
+        Discord
+      </a>
+      <a href="https://www.youtube.com/@hatilo658" target="_blank" rel="noopener noreferrer" class="button-link" aria-label="YouTube channel hatilo658" tabindex="0">
         <span class="material-icons" aria-hidden="true">ondemand_video</span>
         YouTube
-      </button>
+      </a>
     </nav>
   </main>
 <script>
-  // Constellation starfield with connecting lines animation
-  // Inspired by Jeff Bezos style subtle futuristic background effect
   (function(){
     const canvas = document.getElementById('constellation');
     if(!canvas) return
     const ctx = canvas.getContext('2d');
     let width, height;
     
-    // Star properties
     const STAR_COUNT = 90;
     const MAX_DIST = 150;
     const stars = [];
@@ -390,7 +387,6 @@
     
     function animate(){
       ctx.clearRect(0,0,width,height);
-      // Move stars
       stars.forEach(s=>{
         s.x += s.vx;
         s.y += s.vy;
@@ -399,9 +395,7 @@
         if(s.y > height) s.y = 0;
         else if(s.y < 0) s.y = height;
       });
-      // Draw stars
       stars.forEach(drawStar);
-      // Draw lines between close stars
       for(let i=0; i<STAR_COUNT; i++){
         for(let j=i+1; j<STAR_COUNT; j++){
           const distBetween = dist(stars[i], stars[j]);
@@ -414,7 +408,6 @@
       requestAnimationFrame(animate);
     }
     
-    // Initialize and start animation
     init();
     animate();
     window.addEventListener('resize', () => {
@@ -425,3 +418,4 @@
 </script>
 </body>
 </html>
+
