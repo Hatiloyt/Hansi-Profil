@@ -1,50 +1,427 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hansi Profil</title>
-  <link rel="icon" type="image/x-icon" href="profil1.png">
-  <link rel="stylesheet" href="style.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Developer Profile - Professionell mit Animation</title>
+<!-- Google Fonts Inter for modern typography -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+<!-- Google Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    background: #18191c;
+    color: #dcddde;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  /* Background container with animated gradient and floating shapes */
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: linear-gradient(120deg, #09121e, #1f2030 60%, #262735);
+    animation: bgShift 20s linear infinite alternate;
+  }
+
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  /* Animated blurred radial blobs using pseudo elements */
+  .background::before,
+  .background::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    animation: moveBlob 30s linear infinite alternate;
+    mix-blend-mode: screen;
+  }
+  .background::before {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at center, #5865f2, transparent 70%);
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  .background::after {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at center, #8b5cf6, transparent 70%);
+    bottom: 15%;
+    right: 15%;
+    animation-delay: 15s;
+  }
+
+  @keyframes moveBlob {
+    0% {
+      transform: translate(0,0) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translate(40px, 40px) scale(1.1);
+      opacity: 0.4;
+    }
+    100% {
+      transform: translate(0,0) scale(1);
+      opacity: 0.3;
+    }
+  }
+
+  /* Additional floating linear shards */
+  .float-shard {
+    position: fixed;
+    width: 4px;
+    height: 90px;
+    background: linear-gradient(180deg, #5865f2, transparent);
+    opacity: 0.15;
+    border-radius: 3px;
+    animation: floatShardMove 15s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(88,101,242,0.5));
+    z-index: 0;
+  }
+  .float-shard:nth-child(1) {
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+  }
+  .float-shard:nth-child(2) {
+    top: 60%;
+    left: 35%;
+    animation-delay: 5s;
+  }
+  .float-shard:nth-child(3) {
+    top: 40%;
+    left: 70%;
+    animation-delay: 10s;
+  }
+
+  @keyframes floatShardMove {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 0.15;
+    }
+    50% {
+      transform: translateY(20px);
+      opacity: 0.35;
+    }
+  }
+
+  /* Animated constellation lines background */
+  .constellation-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+  }
+
+  /* Content container styles */
+  .profile-container {
+    position: relative;
+    z-index: 10;
+    background-color: #2f3136; 
+    border-radius: 16px;
+    padding: 32px 40px 48px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 12px 48px rgba(88,101,242,0.6);
+    animation: fadeSlideUp 0.9s cubic-bezier(0.24, 1.125, 0.29, 1.15) forwards;
+    will-change: opacity, transform, filter;
+  }
+
+  /* Fade and slide up container */
+  @keyframes fadeSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(36px);
+      filter: drop-shadow(0 0 0 rgba(88,101,242,0));
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: drop-shadow(0 12px 48px rgba(88,101,242,0.5));
+    }
+  }
+
+  /* Profile picture with subtle pulsing border */
+  @keyframes pulseBorder {
+    0%, 100% {
+      box-shadow: 0 0 0 3px #5865f2;
+    }
+    50% {
+      box-shadow: 0 0 14px 10px rgba(88, 101, 242, 0.72);
+    }
+  }
+  .profile-pfp {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #5865f2; 
+    object-fit: cover;
+    margin-bottom: 24px;
+    background-color: #36393f;
+    animation: pulseBorder 5s ease-in-out infinite;
+    will-change: box-shadow;
+    transition: box-shadow 0.3s ease;
+  }
+  .profile-pfp:hover,
+  .profile-pfp:focus {
+    box-shadow: 0 0 28px 12px rgba(88, 101, 242, 1);
+    outline: none;
+  }
+
+  .profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+  .profile-role {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #b9bbbe;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .button-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  button {
+    background-color: #36393f;
+    border: none;
+    border-radius: 12px;
+    color: #dcddde;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 
+      background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    width: 100%;
+    will-change: transform, background-color, box-shadow;
+  }
+  button .material-icons {
+    font-size: 22px;
+    color: #5865f2; 
+    transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: color;
+  }
+
+  button:hover,
+  button:focus-visible {
+    background-color: #5865f2;
+    color: #fff;
+    outline-offset: 4px;
+    outline: 2px solid #7289da;
+    transform: scale(1.06);
+    box-shadow: 0 12px 24px rgba(88,101,242,0.75);
+    z-index: 1;
+  }
+  button:hover .material-icons,
+  button:focus-visible .material-icons {
+    color: #ffffff;
+  }
+
+  button:active {
+    transform: scale(0.97);
+    box-shadow: 0 6px 12px rgba(88,101,242,0.5);
+    transition-duration: 0.1s;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 400px) {
+    .profile-container {
+      max-width: 100%;
+      padding: 24px 20px 36px;
+    }
+    .button-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    button {
+      padding: 16px 0;
+      font-size: 1.125rem;
+      gap: 14px;
+    }
+  }
+</style>
 </head>
 <body>
-  <video autoplay muted loop playsinline id="bgVideo">
-    <source src="background1.mp4" type="video/mp4">
-    Dein Browser unterstützt keine HTML5-Videos.
-  </video>
-  <div class="overlay"></div>
-
-  <div class="all">
-    <h1>Hansi (Hatilo)</h1>
-    <h2>Developer</h2>
-    
-<div class="image-container" id="container">
-  <img src="profil.png" alt="Profilbild" id="image">
-</div>
-
-    <div class="socials">
-      <a href="https://www.twitch.tv/hatilo_" class="Twitch" target="_blank" rel="noopener noreferrer">
-        <i class="fa-brands fa-twitch"></i> Twitch
-      </a>
-      <a href="https://www.youtube.com/@hatilo658" class="YouTube" target="_blank" rel="noopener noreferrer">
-        <i class="fa-brands fa-youtube"></i> YouTube
-      </a>
-    </div>
-
-    <div class="socials2">
-      <a href="https://discord.gg/xm3cEHqEAx" class="Discord" target="_blank" rel="noopener noreferrer">
-        <i class="fa-brands fa-discord"></i> Discord
-      </a>
-      <a href="https://www.twitch.tv/lhansi_" class="Twitch2" target="_blank" rel="noopener noreferrer">
-        <i class="fa-brands fa-twitch"></i> Twitch 2
-      </a>
-    </div>
+  <div class="background" aria-hidden="true">
+    <div class="float-shard" aria-hidden="true"></div>
+    <div class="float-shard" aria-hidden="true"></div>
+    <div class="float-shard" aria-hidden="true"></div>
   </div>
-
-  <script src="script.js"></script>
+  <canvas id="constellation" class="constellation-canvas" aria-hidden="true"></canvas>
+  <main class="profile-container" role="main" aria-label="Profil Seite von Developer">
+    <img 
+      src="profil1" 
+      alt="Profilbild eines Developers, kreisförmig, moderner Stil, dunkler Hintergrund, blaue Umrandung" 
+      class="profile-pfp" 
+      width="120" height="120"
+      onerror="this.onerror=null;this.src='https://placehold.co/120x120/png?text=Profile';"
+      loading="lazy"
+      tabindex="0"
+    />
+    <h1 class="profile-name">Developer</h1>
+    <p class="profile-role">developer</p>
+    <nav class="button-row" role="navigation" aria-label="Social Media Links">
+      <button type="button" aria-label="Twitch" tabindex="0">
+        <span class="material-icons" aria-hidden="true">sports_esports</span>
+        Twitch
+      </button>
+      <button type="button" aria-label="Discord" tabindex="0">
+        <span class="material-icons" aria-hidden="true">chat</span>
+        Discord
+      </button>
+      <button type="button" aria-label="Twitch 2" tabindex="0">
+        <span class="material-icons" aria-hidden="true">videogame_asset</span>
+        Twitch 2
+      </button>
+      <button type="button" aria-label="YouTube" tabindex="0">
+        <span class="material-icons" aria-hidden="true">ondemand_video</span>
+        YouTube
+      </button>
+    </nav>
+  </main>
+<script>
+  // Constellation starfield with connecting lines animation
+  // Inspired by Jeff Bezos style subtle futuristic background effect
+  (function(){
+    const canvas = document.getElementById('constellation');
+    if(!canvas) return
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    
+    // Star properties
+    const STAR_COUNT = 90;
+    const MAX_DIST = 150;
+    const stars = [];
+    
+    function init() {
+      resize();
+      stars.length = 0;
+      for(let i=0; i<STAR_COUNT; i++){
+        stars.push({
+          x: Math.random()*width,
+          y: Math.random()*height,
+          vx: (Math.random()-0.5)*0.2,
+          vy: (Math.random()-0.5)*0.2,
+          radius: Math.random()*1.2+0.8,
+          alpha: Math.random()*0.5+0.5
+        });
+      }
+    }
+    
+    function resize(){
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * devicePixelRatio;
+      canvas.height = height * devicePixelRatio;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+    
+    function drawStar(star){
+      ctx.beginPath();
+      const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius*5);
+      gradient.addColorStop(0, 'rgba(88,101,242,' + star.alpha + ')');
+      gradient.addColorStop(0.6, 'rgba(88,101,242,0.1)');
+      gradient.addColorStop(1, 'rgba(88,101,242,0)');
+      ctx.fillStyle = gradient;
+      ctx.arc(star.x, star.y, star.radius*4, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(88,101,242,' + star.alpha + ')';
+      ctx.arc(star.x, star.y, star.radius, 0, 2*Math.PI);
+      ctx.fill();
+    }
+    
+    function dist(a,b){
+      const dx = a.x-b.x;
+      const dy = a.y-b.y;
+      return Math.sqrt(dx*dx+dy*dy);
+    }
+    
+    function drawLine(a,b,alpha){
+      ctx.strokeStyle = `rgba(88,101,242,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y);
+      ctx.lineTo(b.x,b.y);
+      ctx.stroke();
+    }
+    
+    function animate(){
+      ctx.clearRect(0,0,width,height);
+      // Move stars
+      stars.forEach(s=>{
+        s.x += s.vx;
+        s.y += s.vy;
+        if(s.x > width) s.x = 0;
+        else if(s.x < 0) s.x = width;
+        if(s.y > height) s.y = 0;
+        else if(s.y < 0) s.y = height;
+      });
+      // Draw stars
+      stars.forEach(drawStar);
+      // Draw lines between close stars
+      for(let i=0; i<STAR_COUNT; i++){
+        for(let j=i+1; j<STAR_COUNT; j++){
+          const distBetween = dist(stars[i], stars[j]);
+          if(distBetween < MAX_DIST){
+            const lineAlpha = (MAX_DIST - distBetween) / MAX_DIST * 0.3;
+            drawLine(stars[i], stars[j], lineAlpha);
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    
+    // Initialize and start animation
+    init();
+    animate();
+    window.addEventListener('resize', () => {
+      resize();
+      init();
+    });
+  })();
+</script>
 </body>
 </html>
